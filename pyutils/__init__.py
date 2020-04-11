@@ -8,13 +8,14 @@
 ------------      --------    -----------
 2020/4/11 3:25 下午    1.0         None
 """
-__version__ = "0.0.4"
+__version__ = "0.1.0"
 
 import time
 import pickle
 import re
 import os
 import random
+import json
 from .pandas_util import (
     pd2json, json2pd, pd2markdown
 )
@@ -223,3 +224,14 @@ def log_dict_key(dict_data: dict):
     """
     for k in dict_data.keys():
         print('key: ', k, ' value_len: ', len(dict_data[k]), ' type: ', type(dict_data[k]))
+
+
+def save_json(json_data: dict, file_dir):
+    """
+    保存 json数据到本地
+    :param json_data: 数据
+    :param file_dir: 文件位置
+    :return:
+    """
+    with open(file_dir, "w", encoding='utf-8') as dump_f:
+        json.dump(json_data, dump_f, ensure_ascii=False, indent=4)
