@@ -127,9 +127,30 @@ def pd2markdown(pd_data: pd.DataFrame):
     |  2 |   5 |   5 |
     """
     try:
-        import tabulate
+        from tabulate import tabulate
     except ImportError:
         print('Error ,please install tabulate')
         print('pip install tabulate')
         pass
     print(tabulate(pd_data, tablefmt="pipe", headers="keys"))
+
+
+def pd_list2excel(excel_filename, pd_list, sheet_name_list=None):
+    """
+    多个pandas对象保存为一个excel文件，传入文件名，pd对象list，表单名可选
+    :param excel_filename:
+    :param pd_list:
+    :param sheet_name_list:
+    :return: 保存成功
+    """
+    writer = pd.ExcelWriter(excel_filename, engine='openpyxl')
+    if sheet_name_list is None:
+        for i, pd_obj in enumerate(pd_list):
+            pd_obj.to_excel(excel_writer=writer, sheet_name='f第{i}页', encoding="utf-8", index=False)
+    else:
+        assert len(pd_list) == len(sheet_name_list)
+        for i, pd_obj in enumerate(pd_list):
+            pd_obj.to_excel(excel_writer=writer, sheet_name=sheet_name_list[i], encoding="utf-8", index=False)
+    writer.save()
+    writer.close()
+    print(excel_filename, ': save success')

@@ -17,7 +17,12 @@ import os
 import random
 import json
 from .pandas_util import (
+    # pandas 常用操作
     pd2json, json2pd, pd2markdown
+)
+from .request_util import (
+    # 网络请求
+    request, post_request, get_request
 )
 
 
@@ -28,6 +33,15 @@ def logd(str_s):
     @return:
     """
     return print(str_s)
+
+
+def loge(str_s):
+    """
+    打印 error 信息
+    @param str_s:
+    @return:
+    """
+    return print('Error: ' + str_s)
 
 
 def log_time():
@@ -114,7 +128,7 @@ def clean_str(row):
 
 def is_file(str_file):
     """
-    判断str是文件结尾or只是个文件夹， 默认认为文件是'.*'结尾，文件夹是'/*' or '\*' 结尾
+    判断str是文件结尾or只是个文件夹， 默认认为文件是'.*'结尾，文件夹是'/*' or '\\' 结尾
     # 暂时废弃
     :param str_file:
     :return:
@@ -135,7 +149,7 @@ def pickle_dump(obj_data, work_path='', file_name='obj_data.pkl'):
     @:return 返回None
     """
     if '.pkl' in work_path:
-        pickle.dump(obj_data, open(work_path), 'wb')
+        pickle.dump(obj_data, open(work_path, 'wb'))
         logd('save success:  ' + work_path + '\n')
         return None
     if work_path == '':
@@ -158,7 +172,7 @@ def pickle_load(file_name_dir):
     @param file_name_dir: 保存地址
     @return: 源数据
     """
-    ob_info = pickle.load(open(file_name_dir), 'rb')
+    ob_info = pickle.load(open(file_name_dir, 'rb'))
     return ob_info
 
 
@@ -235,3 +249,14 @@ def save_json(json_data: dict, file_dir):
     """
     with open(file_dir, "w", encoding='utf-8') as dump_f:
         json.dump(json_data, dump_f, ensure_ascii=False, indent=4)
+
+
+def dumps_json(json_data: dict, file_dir):
+    """
+    保存 json数据到本地
+    :param json_data: 数据
+    :param file_dir: 文件位置
+    :return:
+    """
+    with open(file_dir, "w", encoding='utf-8') as writer:
+        writer.write(json.dumps(json_data, indent=4, ensure_ascii=False) + "\n")
