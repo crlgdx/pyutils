@@ -10,7 +10,9 @@
 """
 import requests
 import time
-from pyutils import loge
+from .utils import loge, logd
+from urllib.request import Request, urlopen
+from bs4 import BeautifulSoup
 
 headers_common = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 "
@@ -73,22 +75,22 @@ def post_request(url, post_data, header=None, timeout=10):
             return 'nothing'
 
 
-def request(url, post_data=None, header=None, method='get', timeout=10):
+def request(url, post_data=None, header=None, timeout=10):
     """
-    通用的网络请求 可自定义get 或者post
-    :param url:
-    :param post_data:
-    :param header:
-    :param method:
-    :param timeout:
-    :return:
+    通用的网络请求 可自定义get 或者post，post_data不为None时使用post请求，否则get
+    :param url: 访问url
+    :param post_data: 如果post方式，需有数据
+    :param header: 请求头
+    :param timeout: 超时时间
+    :return: 请求错误时返回nothing
     """
+    if 'http' not in url:
+        logd('***  warning: may miss http or https in url: ' + url)
+        url = 'https://' + url
     if header is None:
         header = headers_common
     try:
-        if method == 'post':
-            if post_data is None:
-                raise Exception('post_data is None')
+        if post_data is not None:
             req = requests.post(url, data=post_data, headers=header, timeout=timeout)
             return req.text
         else:
@@ -98,3 +100,52 @@ def request(url, post_data=None, header=None, method='get', timeout=10):
         loge(e)
         loge('请求错误')
         return 'nothing'
+
+
+def urllib_request(url, post_data=None, header=None, encoding="utf-8"):
+    """
+    通过系统自带请求库进行网络访问，如果pos_data不为None，通过post访问，否则get访问
+    urlopen 后可接Request对象，或者直接为url地址
+    :param post_data: 如果post方式，需有数据
+    :param url: 访问url
+    :param header: 请求头
+    :param encoding: 默认解码方式，网页为gbk编码时，需要用户指定
+    :return: 请求错误时返回nothing
+    """
+    if header is None:
+        header = headers_common
+    if post_data is None:
+        # get 访问
+        req = Request(url, headers=header)
+    else:
+        # post 访问
+        req = Request(url, data=post_data, headers=header)
+    try:
+        response = urlopen(req)  # 请求
+        html = response.read().decode(encoding=encoding)
+        return html
+    except Exception as e:
+        loge(e)
+        return 'nothing'
+
+
+def bs4_find_class(html, class_value):
+    """
+    传入html文本或者网络数据流，返回匹配class标签的bs4.element.Tag list
+    :param html: html文本或者未解码前的context
+    :param class_value: class标签值
+    :return: list
+    """
+    Soup = BeautifulSoup(html, 'lxml')
+    soup_list = Soup.find_all(class_=class_value)
+    return soup_list
+
+
+def bs4_get_soup(html):
+    """
+    传入html文本或者网络数据流，返回BeautifulSoup对象
+    :param html:
+    :return:
+    """
+    Soup = BeautifulSoup(html, 'lxml')
+    return Soup

@@ -8,7 +8,7 @@
 ------------      --------    -----------
 2020/4/11 3:25 下午    1.0         None
 """
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 import time
 import pickle
@@ -16,6 +16,7 @@ import re
 import os
 import random
 import json
+from .utils import loge, logd
 from .pandas_util import (
     # pandas 常用操作
     pd2json, json2pd, pd2markdown
@@ -24,24 +25,6 @@ from .request_util import (
     # 网络请求
     request, post_request, get_request
 )
-
-
-def logd(str_s):
-    """
-    打印 debug 信息
-    @param str_s:
-    @return:
-    """
-    return print(str_s)
-
-
-def loge(str_s):
-    """
-    打印 error 信息
-    @param str_s:
-    @return:
-    """
-    return print('Error: ' + str_s)
 
 
 def log_time():
