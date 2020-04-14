@@ -149,14 +149,25 @@ def pickle_dump(obj_data, work_path='', file_name='obj_data.pkl'):
     logd('save success:  ' + file_name + '\n')
 
 
+def pickle_dump_simple(obj_data, save_file_path):
+    """
+    简单的pickl dump实现
+    :param obj_data:
+    :param save_file_path:
+    :return:
+    """
+    pickle.dump(obj_data, open(save_file_path, 'wb'))
+    print('save success:  ' + save_file_path + '\n')
+
+
 def pickle_load(file_name_dir):
     """
     读取存在本地的数据 并返回, 传入地址与文件名
     @param file_name_dir: 保存地址
     @return: 源数据
     """
-    ob_info = pickle.load(open(file_name_dir, 'rb'))
-    return ob_info
+    obj_info = pickle.load(open(file_name_dir, 'rb'))
+    return obj_info
 
 
 def time_sleep_second(a=2, b=3):
