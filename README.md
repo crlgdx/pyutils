@@ -1,4 +1,18 @@
 <!--[toc]-->
+[TOC]: # "pyutils "
+
+[TOC]: # "安装和卸载 "
+
+
+# todo
+
+1、常用文本读取 csv tsv txt
+
+2、常用写入 csv tsv txt json
+
+3、常用 单行写入、整体写入（大文件不推荐）、单行读取、全部读取、
+
+
 
 # pyutils
 ```

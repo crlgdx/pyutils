@@ -234,7 +234,7 @@ def log_dict_key(dict_data: dict):
         print('key: ', k, ' value_len: ', len(dict_data[k]), ' type: ', type(dict_data[k]))
 
 
-def save_json(json_data: dict, file_dir):
+def json_save(json_data: dict, file_dir):
     """
     保存 json数据到本地
     :param json_data: 数据
@@ -245,7 +245,7 @@ def save_json(json_data: dict, file_dir):
         json.dump(json_data, dump_f, ensure_ascii=False, indent=4)
 
 
-def dumps_json(json_data: dict, file_dir):
+def json_dumps(json_data: dict, file_dir):
     """
     保存 json数据到本地
     :param json_data: 数据
@@ -254,3 +254,13 @@ def dumps_json(json_data: dict, file_dir):
     """
     with open(file_dir, "w", encoding='utf-8') as writer:
         writer.write(json.dumps(json_data, indent=4, ensure_ascii=False) + "\n")
+
+
+def json_read(file_dir, encoding='utf-8'):
+    """
+    读取本地json数据,默认utf-8格式打开
+    :param file_dir:
+    :return:
+    """
+    json_data = json.load(open(file_dir, encoding=encoding))
+    return json_data
