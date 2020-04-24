@@ -9,6 +9,7 @@
 2020/4/11 4:48 下午    1.0         None
 """
 import pandas as pd
+import json
 
 
 def pd2json(pd_data: pd.DataFrame, orient='records'):
@@ -74,8 +75,11 @@ def pd2json(pd_data: pd.DataFrame, orient='records'):
           "data": [{"index": "row 1", "col 1": "a", "col 2": "b"},
                    {"index": "row 2", "col 1": "c", "col 2": "d"}]}'
         """
-
-    return pd_data.to_json(orient=orient)
+    pd2json_data = pd_data.to_json(orient=orient)
+    # 如果转换以后为str类型，再通过loads方法 
+    if pd2json_data == str:
+        pd2json_data = json.loads(pd2json_data)
+    return pd2json_data
 
 
 def json2pd(json_data):
