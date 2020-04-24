@@ -231,7 +231,10 @@ def log_dict_key(dict_data: dict):
     :return: None
     """
     for k in dict_data.keys():
-        print('key: ', k, ' value_len: ', len(dict_data[k]), ' type: ', type(dict_data[k]))
+        try:
+            print('key: ', k, ' value_len: ', len(dict_data[k]), ' type: ', type(dict_data[k]))
+        except Exception as e:
+            print('key: ', k, ' value_len: ', ' type: ', type(dict_data[k]))
 
 
 def json_save(json_data: dict, file_dir):
