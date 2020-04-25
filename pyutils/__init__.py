@@ -8,7 +8,7 @@
 ------------      --------    -----------
 2020/4/11 3:25 下午    1.0         None
 """
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 import time
 import pickle
@@ -26,6 +26,7 @@ from .request_util import (
     request, post_request, get_request
 )
 
+from .rouge_score_dureader import get_dureader_sccore
 
 def log_time():
     """
@@ -248,6 +249,18 @@ def json_save(json_data: dict, file_dir):
         json.dump(json_data, dump_f, ensure_ascii=False, indent=4)
 
 
+def json_save_list(json_data: dict, file_dir):
+    """
+    保存 list-json数据到本地,逐行保存
+    :param json_data: 数据
+    :param file_dir: 文件位置
+    :return:
+    """
+    with open(file_dir, "w", encoding='utf-8') as writer:
+        for item in json_data:
+            writer.write(json.dumps(item, ensure_ascii=False) + "\n")
+
+
 def json_dumps(json_data: dict, file_dir):
     """
     保存 json数据到本地
@@ -267,3 +280,15 @@ def json_read(file_dir, encoding='utf-8'):
     """
     json_data = json.load(open(file_dir, encoding=encoding))
     return json_data
+
+
+def read_josn_file_line(source_file_path):
+    """
+    逐行读取json file，并通过yield 返回json格式的数据
+    :param source_file_path:
+    :return:
+    """
+    with open(source_file_path, encoding='utf-8') as f:
+        for line in f:
+            data = json.loads(line)
+            yield data
