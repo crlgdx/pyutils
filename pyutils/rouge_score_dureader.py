@@ -4,8 +4,8 @@ import sys
 import zipfile
 
 from collections import Counter
-from .rouge_bleu_metric.bleu import Bleu
-from .rouge_bleu_metric.rouge import Rouge
+from pyutils import Bleu
+from pyutils import Rouge
 
 EMPTY = ''
 YESNO_LABELS = set(['Yes', 'No', 'Depends'])

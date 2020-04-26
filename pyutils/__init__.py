@@ -8,7 +8,7 @@
 ------------      --------    -----------
 2020/4/11 3:25 下午    1.0         None
 """
-__version__ = "0.1.2"
+__version__ = "0.1.5"
 
 import time
 import pickle
@@ -25,8 +25,11 @@ from .request_util import (
     # 网络请求
     request, post_request, get_request
 )
+from .rouge_bleu_metric.bleu import Bleu
+from .rouge_bleu_metric.rouge import Rouge
 
 from .rouge_score_dureader import get_dureader_sccore
+
 
 def log_time():
     """
@@ -110,6 +113,16 @@ def clean_str(row):
     return row
 
 
+def mean(list_data):
+    """
+    返回数据平均值
+    Args:
+        list_data: 数字型 list
+    Returns: mean
+    """
+    return sum(list_data) / len(list_data)
+
+
 def is_file(str_file):
     """
     判断str是文件结尾or只是个文件夹， 默认认为文件是'.*'结尾，文件夹是'/*' or '\\' 结尾
@@ -169,6 +182,38 @@ def pickle_load(file_name_dir):
     """
     obj_info = pickle.load(open(file_name_dir, 'rb'))
     return obj_info
+
+
+def pickle_dump_add_new_file(obj_data, save_file_path):
+    """
+    pickl dump实现, 可追加模式
+    :param obj_data:
+    :param save_file_path:
+    :return:
+    """
+    with open(save_file_path, 'ab') as f:
+        pickle.dump(obj_data, f)
+        f.close()
+    print('save success:  ' + save_file_path + '\n')
+
+
+def pickle_load_all_file(source_file_path):
+    """
+    读取连续追加过的pickle数据，通过yield返回迭代式数据
+    Pickle 每次序列化生成的字符串有独立头尾，pickle.load() 只会按顺序读取一个完整的结果，
+    所以只需要在 load 一次之后再 load 一次，就能读到第二次序列化的 对象。
+    如果不知道文件里有多少 pickle 对象，可以在 while 循环中反复 load 文件对象，
+    直到抛出异常为止。
+    :param source_file_path:
+    :return:
+    """
+    with open(source_file_path, 'rb') as f:
+        while True:
+            try:
+                data = pickle.load(f)
+                yield data
+            except EOFError:
+                break
 
 
 def time_sleep_second(a=2, b=3):
@@ -238,6 +283,23 @@ def log_dict_key(dict_data: dict):
             print('key: ', k, ' value_len: ', ' type: ', type(dict_data[k]))
 
 
+def log_dict_key_some_line(dict_data, some=5):
+    """
+    打印字典结构，key以及数据长度和类型,适用于字典数据较多时简单预览部分key
+    :param dict_data:
+    :param some:
+    :return: None
+    """
+    for i, k in enumerate(dict_data.keys()):
+        try:
+            print('key: ', k, ' value_len: ', len(dict_data[k]), ' type: ', type(dict_data[k]))
+        except Exception as e:
+            print('key: ', k, ' value_len: ', ' type: ', type(dict_data[k]))
+        if i > some:
+            print(f'only print {some} line data')
+            break
+
+
 def json_save(json_data: dict, file_dir):
     """
     保存 json数据到本地
@@ -282,7 +344,7 @@ def json_read(file_dir, encoding='utf-8'):
     return json_data
 
 
-def read_josn_file_line(source_file_path):
+def josn_read_file_line(source_file_path):
     """
     逐行读取json file，并通过yield 返回json格式的数据
     :param source_file_path:
