@@ -8,7 +8,7 @@
 ------------      --------    -----------
 2020/4/11 3:25 下午    1.0         None
 """
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 
 import time
 import pickle
@@ -311,6 +311,17 @@ def json_save(json_data: dict, file_dir):
         json.dump(json_data, dump_f, ensure_ascii=False, indent=4)
 
 
+def json_save_add_new_line(json_data: dict, file_dir):
+    """
+    保存 json数据到本地,每次保存一行，若文件存在，执行追加模式。适用于大文件的单条数据逐渐保存
+    :param json_data: 数据
+    :param file_dir: 文件位置
+    :return:
+    """
+    with open(file_dir, "a", encoding='utf-8') as writer:
+        writer.write(json.dumps(json_data, ensure_ascii=False) + "\n")
+
+
 def json_save_list(json_data: dict, file_dir):
     """
     保存 list-json数据到本地,逐行保存
@@ -344,7 +355,7 @@ def json_read(file_dir, encoding='utf-8'):
     return json_data
 
 
-def josn_read_file_line(source_file_path):
+def json_read_file_line(source_file_path):
     """
     逐行读取json file，并通过yield 返回json格式的数据
     :param source_file_path:
