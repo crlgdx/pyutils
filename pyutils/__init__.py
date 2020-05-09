@@ -8,7 +8,7 @@
 ------------      --------    -----------
 2020/4/11 3:25 下午    1.0         None
 """
-__version__ = "0.1.6"
+__version__ = "0.1.8"
 
 import time
 import pickle
@@ -223,7 +223,38 @@ def time_sleep_second(a=2, b=3):
     time.sleep(random.randint(a, b))
 
 
-def remove_duplicates_list(to_do_list):
+def list_sort(list_data: list, key, reverse=False):
+    """
+    对list数据进行排序,list中数据为字典型结构，key为字典的某个关键字，以该关键字中的数据为排序依据
+    reverse为True时，排序为降排序，默认为升排序。
+
+    Examples:
+
+        >> list_data = [
+        {'index': 2, 'file': 2}, {'index': 1, 'file': 1}, {'index': 3, 'file': 3},
+        {'index': 5, 'file': 5}, {'index': 4, 'file': 4}
+        ]
+        >> list_sort(list_data, key='index')
+        >> print(list_data)
+        排序后：
+        [{'index': 1, 'file': 1}, {'index': 2, 'file': 2}, {'index': 3, 'file': 3},
+        {'index': 4, 'file': 4}, {'index': 5, 'file': 5}]
+
+    Args:
+        list_data:
+        key:
+        reverse：
+
+    Returns:
+        list_data
+    """
+    def function_sort(data):
+        return data[key]
+    list_data.sort(key=function_sort, reverse=reverse)
+    return list_data
+
+
+def list_remove_duplicates(to_do_list):
     """
     对list去重，返回不重复的list，且顺序不变
     @param to_do_list:
@@ -276,11 +307,26 @@ def log_dict_key(dict_data: dict):
     :param dict_data:
     :return: None
     """
+    log_k_list = []
     for k in dict_data.keys():
         try:
-            print('key: ', k, ' value_len: ', len(dict_data[k]), ' type: ', type(dict_data[k]))
+            log_k_list.append('key: ' + k + ' value_len: ' + str(len(dict_data[k]) ) + ' type: ' + str(type(dict_data[k])))
         except Exception as e:
-            print('key: ', k, ' value_len: ', ' type: ', type(dict_data[k]))
+            log_k_list.append('key: ' + k +  ' type: ' + str(type(dict_data[k])))
+    log_k_list.sort()
+    for item in log_k_list:
+        print(item)
+    print('--------------------------------------')
+    print('all_key_num: ', len(log_k_list))
+
+
+def log_json_file_key(json_file):
+    """
+    直接输出 jsonfile的一级字典结构
+    :param json_file:
+    :return:
+    """
+    log_dict_key(next(json_read_file_line(json_file)))
 
 
 def log_dict_key_some_line(dict_data, some=5):
@@ -349,6 +395,7 @@ def json_read(file_dir, encoding='utf-8'):
     """
     读取本地json数据,默认utf-8格式打开
     :param file_dir:
+    :param encoding:
     :return:
     """
     json_data = json.load(open(file_dir, encoding=encoding))
@@ -365,3 +412,14 @@ def json_read_file_line(source_file_path):
         for line in f:
             data = json.loads(line)
             yield data
+
+
+def read_txt_file_line(source_file_path):
+    """
+    逐行读取普通txt文件，并通过yield 返回数据
+    :param source_file_path:
+    :return:
+    """
+    with open(source_file_path, encoding='utf-8') as f:
+        for line in f:
+            yield line
