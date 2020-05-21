@@ -423,3 +423,33 @@ def read_txt_file_line(source_file_path):
     with open(source_file_path, encoding='utf-8') as f:
         for line in f:
             yield line
+
+
+def file_get_filename(input_file):
+    """
+    输入文件的详细路径，返回文件名
+    --------
+        >> input_file = r'E:\tmp\model_data_0520\train.json'
+        >> file_name = input_file.split('\\')[-1]
+        file_name -> : train.json
+    :param input_file:
+    :return:
+    """
+    file_name = input_file.split('\\')[-1]
+    return file_name
+
+
+def file_get_dir(input_file):
+    """
+    输入文件的详细路径，返回文件文件夹
+    --------
+        >> input_file = r'E:\tmp\model_data_0520\train.json'
+        >> file_name = input_file.split('\\')[-1]
+        >> input_dir = input_file.replace(file_name, '')
+        input_dir -> : 'E:\tmp\model_data_0520\'
+    :param input_file:
+    :return:
+    """
+    file_name = input_file.split('\\')[-1]
+    input_dir = input_file.replace(file_name, '')
+    return input_dir
