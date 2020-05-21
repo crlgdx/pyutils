@@ -435,7 +435,10 @@ def file_get_filename(input_file):
     :param input_file:
     :return:
     """
-    file_name = input_file.split('\\')[-1]
+    if '/' in input_file:
+        file_name = input_file.split('/')[-1]
+    else:
+        file_name = input_file.split('\\')[-1]
     return file_name
 
 
@@ -450,6 +453,9 @@ def file_get_dir(input_file):
     :param input_file:
     :return:
     """
-    file_name = input_file.split('\\')[-1]
+    if '/' in input_file:
+        file_name = input_file.split('/')[-1]
+    else:
+        file_name = input_file.split('\\')[-1]
     input_dir = input_file.replace(file_name, '')
     return input_dir
