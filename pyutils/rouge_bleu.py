@@ -52,7 +52,7 @@ class RougeL(object):
 
     def get_rougl_score(self, cand: str, ref: str):
         """
-        输入单条的预测与候选答案，返回
+        输入单条的预测与候选答案，返回rougl得分
         :param cand:
         :param ref:
         :return:

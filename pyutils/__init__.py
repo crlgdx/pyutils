@@ -27,6 +27,7 @@ from .request_util import (
 )
 from .rouge_bleu_metric.bleu import Bleu
 from .rouge_bleu_metric.rouge import Rouge
+from .rouge_bleu import RougeL
 
 from .rouge_score_dureader import get_dureader_sccore
 
