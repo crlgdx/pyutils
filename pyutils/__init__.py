@@ -11,6 +11,7 @@
 __version__ = "0.1.8"
 
 import time
+from datetime import datetime
 import pickle
 import re
 import os
@@ -25,10 +26,22 @@ from .request_util import (
     # 网络请求
     request, post_request, get_request
 )
-from .rouge_bleu_metric.bleu import Bleu
-from .rouge_bleu_metric.rouge import Rouge
+
+from .rouge_bleu import Rouge
+
+# from .rouge_bleu_metric.bleu import Bleu
+# from .rouge_bleu_metric.rouge import Rouge
 
 from .rouge_score_dureader import get_dureader_sccore
+
+
+def get_current_time_dir():
+    """
+    获取当前时间，月—日—小时-分-秒，用于文件后缀名
+    :return:
+    """
+    current_time = datetime.now().strftime('%b%d_%H-%M-%S')
+    return current_time
 
 
 def log_time():
@@ -254,6 +267,20 @@ def list_sort(list_data: list, key, reverse=False):
     return list_data
 
 
+def list_remove_duplicates_with_log(to_do_list):
+    """
+    对list去重，返回不重复的list，且顺序不变,打印去除重复log
+    @param to_do_list:
+    @return: 返回不重复的list
+    """
+    list2 = []
+    for item in to_do_list:
+        if item not in list2:
+            list2.append(item)
+    logd('去除重复{a}条'.format(a=(len(to_do_list) - len(list2))))
+    return list2
+
+
 def list_remove_duplicates(to_do_list):
     """
     对list去重，返回不重复的list，且顺序不变
@@ -264,7 +291,6 @@ def list_remove_duplicates(to_do_list):
     for item in to_do_list:
         if item not in list2:
             list2.append(item)
-    logd('去除重复{a}条'.format(a=(len(to_do_list) - len(list2))))
     return list2
 
 
