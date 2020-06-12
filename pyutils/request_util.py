@@ -13,6 +13,7 @@ import time
 from .utils import loge, logd
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
+import urllib.request
 
 headers_common = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 "
@@ -149,3 +150,15 @@ def bs4_get_soup(html):
     """
     Soup = BeautifulSoup(html, 'lxml')
     return Soup
+
+
+def download_file(url, save_file_path):
+    """
+    传入url，及保存地址，保存到本地
+    :param url:
+    :param save_file_path:
+    :return:
+    """
+    urllib.request.urlretrieve(url, save_file_path)
+    print(save_file_path + ": success")
+
