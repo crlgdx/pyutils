@@ -347,6 +347,15 @@ def log_dict_key(dict_data: dict):
     print('all_key_num: ', len(log_k_list))
 
 
+def log_list_json_file_key(json_file):
+    """
+    直接输出 jsonfile的一级字典结构
+    :param json_file:
+    :return:
+    """
+    log_dict_key(next(json_read_file_line(json_file)))
+
+
 def log_json_file_key(json_file):
     """
     直接输出 jsonfile的一级字典结构
@@ -439,6 +448,20 @@ def json_read_file_line(source_file_path):
         for line in f:
             data = json.loads(line)
             yield data
+
+
+def json_read_file_line_return_list(source_file_path):
+    """
+    逐行读取json file，并返回list - json格式的数据
+    :param source_file_path:
+    :return:
+    """
+    data_list = []
+    with open(source_file_path, encoding='utf-8') as f:
+        for line in f:
+            data = json.loads(line)
+            data_list.append(data)
+    return data_list
 
 
 def read_txt_file_line(source_file_path):
