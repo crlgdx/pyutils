@@ -22,6 +22,7 @@ from .pandas_util import (
     # pandas 常用操作
     pd2json, json2pd, pd2markdown
 )
+from .numpy_util import softmax
 from .request_util import (
     # 网络请求
     request, post_request, get_request
@@ -394,7 +395,7 @@ def json_save_add_new_line(json_data: dict, file_dir):
         writer.write(json.dumps(json_data, ensure_ascii=False) + "\n")
 
 
-def json_save_list(json_data: dict, file_dir):
+def json_save_list(json_data: list, file_dir):
     """
     保存 list-json数据到本地,逐行保存
     :param json_data: 数据
