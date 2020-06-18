@@ -282,6 +282,23 @@ def list_remove_duplicates_with_log(to_do_list):
     return list2
 
 
+def list2dict(list_data, key):
+    """
+    输入list，list中关键字key，返回以key为关键字的dict
+    Args:
+        list_data:
+        key:
+
+    Returns:
+
+    """
+    dict_data = {}
+    for item in list_data:
+        # item[k] 取出关键字的数据，如id
+        dict_data[item[key]] = item
+    return dict_data
+
+
 def list_remove_duplicates(to_do_list):
     """
     对list去重，返回不重复的list，且顺序不变
