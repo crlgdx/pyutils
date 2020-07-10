@@ -8,7 +8,7 @@
 ------------      --------    -----------
 2020/4/11 3:25 下午    1.0         None
 """
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 
 import time
 from datetime import datetime
@@ -235,6 +235,17 @@ def time_sleep_second(a=2, b=3):
     睡眠 2-3 秒
     """
     time.sleep(random.randint(a, b))
+
+
+def list_cut(listTemp, n):
+    """
+    将list分组，分块，n为块的大小
+    :param listTemp:
+    :param n:
+    :return:
+    """
+    for i in range(0, len(listTemp), n):
+        yield listTemp[i:i + n]
 
 
 def list_sort(list_data: list, key, reverse=False):
