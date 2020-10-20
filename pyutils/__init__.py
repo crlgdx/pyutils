@@ -34,7 +34,8 @@ from .rouge_bleu_metric.bleu import Bleu
 from .rouge_bleu_metric.rouge import Rouge
 
 from .rouge_score_dureader import get_dureader_sccore
-
+import gzip
+import io
 
 def get_current_time_dir():
     """
@@ -453,6 +454,29 @@ def json_dumps(json_data: dict, file_dir):
     """
     with open(file_dir, "w", encoding='utf-8') as writer:
         writer.write(json.dumps(json_data, indent=4, ensure_ascii=False) + "\n")
+
+
+def json_save2gzip_file(json_data, file_dir):
+    """
+    保存json或者list数据到gzip文件进行压缩
+    :param json_data: list or dict file
+    :param file_dir: 文件存储位置
+    :return:
+    """
+    with gzip.open(file_dir, 'w') as output:
+        with io.TextIOWrapper(output, encoding='utf-8') as enc:
+            enc.write(json.dumps(json_data, indent=4, ensure_ascii=False) + "\n")
+
+
+def json_read_gzip_file(file_dir):
+    """
+    读取gzip压缩的json文件
+    :param file_dir: 文件存储位置
+    :return: json对象
+    """
+    with gzip.open(file_dir) as f:
+        data = json.load(f)
+        return data
 
 
 def json_read(file_dir, encoding='utf-8'):

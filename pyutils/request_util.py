@@ -12,7 +12,10 @@ import requests
 import time
 from .utils import loge, logd
 from urllib.request import Request, urlopen
-from bs4 import BeautifulSoup
+try:
+    from bs4 import BeautifulSoup
+except ImportError as e:
+    print('Warning: NO bs4(BeautifulSoup) module')
 import urllib.request
 
 headers_common = {
