@@ -8,7 +8,7 @@
 ------------      --------    -----------
 2020/4/11 3:25 下午    1.0         None
 """
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 
 import time
 from datetime import datetime
@@ -36,6 +36,31 @@ from .rouge_bleu_metric.rouge import Rouge
 from .rouge_score_dureader import get_dureader_sccore
 import gzip
 import io
+
+
+def timer(func):
+    """
+    装饰器timer，用于计时一段函数运行时间
+    :param func:
+    :return:
+    """
+    def deco():
+        start = time.time()
+        func()
+        stop = time.time()
+        print('用时:{}秒'.format(stop-start))
+    return deco
+
+
+def print_line(line_char='-', line_len=60):
+    """
+    输入作为分割线的字符，以及打印多长的分割符，输出美丽的分割线
+    :param line_char:
+    :param len_num:
+    :return:
+    """
+    print(line_len*line_char)
+
 
 def get_current_time_dir():
     """
