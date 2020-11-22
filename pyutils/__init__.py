@@ -36,6 +36,37 @@ from .rouge_bleu_metric.rouge import Rouge
 from .rouge_score_dureader import get_dureader_sccore
 import gzip
 import io
+import csv
+
+
+def read_tsv(input_file, quotechar=None):
+    """
+    Reads a tab separated value file.
+    读取tsv文件
+    :param input_file:
+    :param quotechar:
+    :return:
+    """
+    with open(input_file, "r", encoding="utf-8-sig") as f:
+        reader = csv.reader(f, delimiter="\t", quotechar=quotechar)
+        lines = []
+        for line in reader:
+            lines.append(line)
+        return lines
+
+
+def save_tsv(save_file, data):
+    """
+    保存tsv文件
+    :param save_file:
+    :param data:
+    :return:
+    """
+    # 对于存在多余空行问题还可以 with open(save_file,'w',newline='',encoding='utf-8') as f:
+    # 指定newline为 ‘’
+    with open(save_file, "w", encoding="utf-8-sig") as f:
+        writer = csv.writer(f, delimiter="\t", lineterminator='\n')
+        writer.writerows(data)
 
 
 def timer(func):
