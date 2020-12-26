@@ -512,6 +512,28 @@ def json_dumps(json_data: dict, file_dir):
         writer.write(json.dumps(json_data, indent=4, ensure_ascii=False) + "\n")
 
 
+def text_save(str_data, file_dir):
+    """
+    保存str_data到file_dir
+    :param objdata:
+    :param file_dir:
+    :return:
+    """
+    with open(file_dir, "w", encoding='utf-8') as writer:
+        writer.write(str_data)
+
+
+def text_read_file_line(source_file_path):
+    """
+    逐行读取text file，并通过yield 返回str格式的数据
+    :param source_file_path:
+    :return:
+    """
+    with open(source_file_path, encoding='utf-8') as f:
+        for line in f:
+            yield line
+
+
 def json_save2gzip_file(json_data, file_dir):
     """
     保存json或者list数据到gzip文件进行压缩
