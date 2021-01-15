@@ -35,14 +35,14 @@ def get_request(url, header=None, timeout=10):
     if header is None:
         header = headers_common
     try:
-        req = requests.get(url, headers=header, timeout=timeout)
+        req = requests.get(url, headers=header, timeout=timeout, verify=False)
         return req.text
     except Exception as e:
         loge(e)
         loge('网络超时，正在暂停，10秒后继续爬取')
         time.sleep(10)
         try:
-            req = requests.get(url, headers=header, timeout=timeout)
+            req = requests.get(url, headers=header, timeout=timeout, verify=False)
             return req.text
         except Exception as e:
             loge(e)
