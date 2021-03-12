@@ -8,7 +8,7 @@
 ------------      --------    -----------
 2020/4/11 3:25 下午    1.0         None
 """
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 
 import time
 from datetime import datetime

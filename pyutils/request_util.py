@@ -24,25 +24,26 @@ headers_common = {
 }
 
 
-def get_request(url, header=None, timeout=10):
+def get_request(url, header=None, timeout=10, verify=False):
     """
     通用的 get请求，传入url，可以自定义header
     @param url: 访问的url
     @param header: 访问头
     @param timeout: 超时设置
+    @param verify: 针对https 默认不验证
     @return: 如果成功，返回爬取的数据，否则返回 'nothing'
     """
     if header is None:
         header = headers_common
     try:
-        req = requests.get(url, headers=header, timeout=timeout, verify=False)
+        req = requests.get(url, headers=header, timeout=timeout, verify=verify)
         return req.text
     except Exception as e:
         loge(e)
         loge('网络超时，正在暂停，10秒后继续爬取')
         time.sleep(10)
         try:
-            req = requests.get(url, headers=header, timeout=timeout, verify=False)
+            req = requests.get(url, headers=header, timeout=timeout, verify=verify)
             return req.text
         except Exception as e:
             loge(e)
@@ -51,26 +52,27 @@ def get_request(url, header=None, timeout=10):
             return 'nothing'
 
 
-def post_request(url, post_data, header=None, timeout=10):
+def post_request(url, post_data, header=None, timeout=10, verify=False):
     """
     通用的 post请求,传入url，post_data,可以自定义header
     :param url:
     :param post_data:
     :param header:
     :param timeout: 超时设置
+    :param verify: 针对https 默认不验证
     :return: 如果成功，返回爬取的数据，否则返回 'nothing'
     """
     if header is None:
         header = headers_common
     try:
-        req = requests.post(url, data=post_data, headers=header, timeout=timeout)
+        req = requests.post(url, data=post_data, headers=header, timeout=timeout, verify=verify)
         return req.text
     except Exception as e:
         loge(e)
         loge('网络超时，正在暂停，10秒后继续爬取')
         time.sleep(10)
         try:
-            req = requests.post(url, data=post_data, headers=header, timeout=timeout)
+            req = requests.post(url, data=post_data, headers=header, timeout=timeout, verify=verify)
             return req.text
         except Exception as e:
             loge(e)
@@ -79,13 +81,14 @@ def post_request(url, post_data, header=None, timeout=10):
             return 'nothing'
 
 
-def request(url, post_data=None, header=None, timeout=10):
+def request(url, post_data=None, header=None, timeout=10, verify=False):
     """
     通用的网络请求 可自定义get 或者post，post_data不为None时使用post请求，否则get
     :param url: 访问url
     :param post_data: 如果post方式，需有数据
     :param header: 请求头
     :param timeout: 超时时间
+    :param verify: 针对https 默认不验证
     :return: 请求错误时返回nothing
     """
     if 'http' not in url:
@@ -95,10 +98,10 @@ def request(url, post_data=None, header=None, timeout=10):
         header = headers_common
     try:
         if post_data is not None:
-            req = requests.post(url, data=post_data, headers=header, timeout=timeout)
+            req = requests.post(url, data=post_data, headers=header, timeout=timeout, verify=verify)
             return req.text
         else:
-            req = requests.get(url, headers=header, timeout=timeout)
+            req = requests.get(url, headers=header, timeout=timeout, verify=verify)
             return req.text
     except Exception as e:
         loge(e)
